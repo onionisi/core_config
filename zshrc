@@ -35,6 +35,13 @@ source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 
-
 # Test for zsh-lover
 alias -s pdf=mupdf
+
+# for rbenv
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+
+# for pyenv
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init -)" 
