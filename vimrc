@@ -49,7 +49,7 @@ syntax enable
 syntax on
 
 "关闭文件类型侦测（vundle required!）
-filetype off 
+filetype off
 "根据侦测到的不同类型加载对应的插件
 filetype plugin on
 "根据侦测到的不同类型采用不同的缩进格式
@@ -116,11 +116,12 @@ Bundle 'gmarik/vundle'
 "需要管理的插件
 "repos on github
 "github用户写的插件：用户名/repo名称
-"Bundle 'tomtom/tlib_vim'
-"Bundle 'tomtom/viki_vim'
 Bundle 'ervandew/supertab'
-Bundle 'Lokaltog/vim-powerline'
-"Bundle 'vimim/vimim'
+Bundle 'bling/vim-airline'
+Bundle 'mattn/emmet-vim'
+Bundle 'terryma/vim-multiple-cursors'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-commentary'
 
 "repos on vim-scripts
 "vim-scripts的repo：插件名称
@@ -135,43 +136,19 @@ Bundle 'taglist.vim'
 Bundle 'DrawIt'
 Bundle 'Tabular'
 Bundle 'python.vim'
-Bundle 'pydoc.vim'
 Bundle 'Gundo'
 Bundle 'TaskList.vim'
-Bundle 'Command-T'
 Bundle 'grep.vim'
 Bundle 'ctrlp.vim'
-"Bundle 'Pydiction'
-"Bundle 'Markdown'
-"Bundle 'cscope.vim'
-"Bundle 'indexer.tar.gz'
-"Bundle 'DfrankUtil'
-"Bundle 'vimprj'
-"Bundle 'Source-Explorer-srcexpl.vim'
-"Bundle 'multvals.vim'
-"Bundle 'cecutil'
-"Bundle 'genutils'
+Bundle 'Syntastic'
 
 "non github reposo
 "非github的插件，可以直接使用其git地址
 "Bundle 'git://git.wincent.com/command-t.git'
-Bundle 'git://github.com/mattn/emmet-vim.git'
 "...
 
 "使用git替代https
 let g:vundle_default_git_proto='git'
-
-"Brief help
-":BundleList          - list configured bundles
-":BundleInstall(!)    - install(update) bundles
-":BundleSearch(!) foo - search(or refresh cache first) for foo
-":BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
-"vundle主要就是上面这个四个命令
-"BundleInstall是全部重新安装，BundleInstall!则是更新
-"一般安装插件的流程为，先BundleSearch一个插件，然后在列表中选中，按i安装
-"安装完之后，在vimrc中，添加Bundle 'XXX'，使得bundle能够加载这个插件，
-"同时如果需要配置这个插件，也是在vimrc中设置即可
-"see :h vundle for more details or wiki for FAQ
 
 "
 " cscope ---------------------------------------------------------------------
@@ -181,14 +158,14 @@ let g:vundle_default_git_proto='git'
 "同时搜索cscopeDB和标签文件
 set cst
 "定义8组快捷键对应s,g,d,c,t,e,f,i8个功能
-nmap <Leader>fs :cs find s <C-R>=expand("<cword>")<CR><CR>  
-nmap <Leader>fg :cs find g <C-R>=expand("<cword>")<CR><CR>  
-nmap <Leader>fc :cs find c <C-R>=expand("<cword>")<CR><CR>  
-nmap <Leader>ft :cs find t <C-R>=expand("<cword>")<CR><CR>  
-nmap <Leader>fe :cs find e <C-R>=expand("<cword>")<CR><CR>  
-nmap <Leader>ff :cs find f <C-R>=expand("<cfile>")<CR><CR>  
-nmap <Leader>fi :cs find i <C-R>=expand("<cfile>")<CR><CR>  
-nmap <Leader>fd :cs find d <C-R>=expand("<cword>")<CR><CR> 
+nmap <Leader>fs :cs find s <C-R>=expand("<cword>")<CR><CR>
+nmap <Leader>fg :cs find g <C-R>=expand("<cword>")<CR><CR>
+nmap <Leader>fc :cs find c <C-R>=expand("<cword>")<CR><CR>
+nmap <Leader>ft :cs find t <C-R>=expand("<cword>")<CR><CR>
+nmap <Leader>fe :cs find e <C-R>=expand("<cword>")<CR><CR>
+nmap <Leader>ff :cs find f <C-R>=expand("<cfile>")<CR><CR>
+nmap <Leader>fi :cs find i <C-R>=expand("<cfile>")<CR><CR>
+nmap <Leader>fd :cs find d <C-R>=expand("<cword>")<CR><CR>
 
 "
 " NERDTree ---------------------------------------------------------------------
@@ -220,10 +197,10 @@ let Tlist_Exit_OnlyWindow=1
 " miniBufExp -------------------------------------------------------------------
 "
 "允许光标在任何位置时用 CTRL-TAB 遍历 buffer
-"let g:miniBufExplMapWindowNavVim=1 
-"let g:miniBufExplMapWindowNavArrows=1 
-"let g:miniBufExplMapCTabSwitchBufs=1 
-"let g:miniBufExplModSelTarget=1 
+"let g:miniBufExplMapWindowNavVim=1
+"let g:miniBufExplMapWindowNavArrows=1
+"let g:miniBufExplMapCTabSwitchBufs=1
+"let g:miniBufExplModSelTarget=1
 let g:miniBufExplorerMoreThanOne=1
 
 "
@@ -242,36 +219,30 @@ let g:SuperTabDefaultCompletionType="context"
 set completeopt=menuone,longest,preview
 
 "
-" vimim ------------------------------------------------------------------------
+" airline   ------------------------------------------------------------------
 "
-"" 输入法循环
-"let g:vimim_toggle = 'baidu,sogou,qq,google' 
-"" 双拼选项
-"let g:vimim_shuangpin = 0   
-"" 中文标点
-"let g:vimim_punctuation = 2   
-"" 插件位置
-"let g:vimim_plugin = '/home/onionisi/.vim/plugin'  
-"" 自己的云
-"let g:vimim_mycloud = 0   
-"" 中文模式
-"let g:vimim_mode = 'dynamic'
-"" 热键开关
-"let g:vimim_map = 'c-bslash'
-"" 云输入
-"let g:vimim_cloud = 'baidu,sogou,qq,google' 
+"let g:airline_section_b='%{strftime("%c")}%'
+"let g:airline_section_y='BN: %{bufnr("%")}'
+"use symbols
+"let g:airline_theme='luna'
+let g:airline_powerline_fonts=1
+let g:airline_symbols = {}
 
-"
-" powerline ------------------------------------------------------------------
-"
-let g:Powerline_symbols='fancy'
-
-"
-" pydoc     ------------------------------------------------------------------
-"
-let g:pydoc_cmd = '/usr/bin/pydoc2'
-let g:pydoc_open_cmd = 'tabnew'
-"let g:pydoc_highlight = 0
+let g:airline_left_sep = '⮀'
+let g:airline_left_alt_sep = '⮁'
+let g:airline_right_sep = '⮂'
+let g:airline_right_alt_sep = '⮃'
+let g:airline_symbols.branch = '⭠'
+let g:airline_symbols.readonly = '⭤'
+"let g:airline_symbols.linenr = '⭡'
+let g:airline_symbols.linenr = '␊'
+"let g:airline_symbols.linenr = '␤'
+"let g:airline_symbols.linenr = '¶'
+"let g:airline_symbols.branch = '⎇'
+"let g:airline_symbols.paste = 'ρ'
+"let g:airline_symbols.paste = 'Þ'
+"let g:airline_symbols.paste = '∥'
+"let g:airline_symbols.whitespace = 'Ξ'
 
 "
 " Gundo     ------------------------------------------------------------------
@@ -286,19 +257,14 @@ map <Leader>g :GundoToggle<CR>
 "
 " Tabular   ------------------------------------------------------------------
 "
-"if exists(":Tabularize")
+if exists(":Tabularize")
 	nmap <Leader>a= :Tabularize /=<CR>
 	vmap <Leader>a= :Tabularize /=<CR>
 	nmap <Leader>a/ :Tabularize //\/<CR>
 	vmap <Leader>a/ :Tabularize //\/<CR>
 	nmap <Leader>a: :Tabularize /:\zs<CR>
 	vmap <Leader>a: :Tabularize /:\zs<CR>
-"endif
-
-"
-" Ack       ------------------------------------------------------------------
-"
-nmap <Leader>a :Ack!
+endif
 
 "
 " ctrlp     ------------------------------------------------------------------
@@ -309,3 +275,8 @@ let g:ctrlp_working_path_mode = 'ra'
 "set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux
+
+"
+" syntastic ------------------------------------------------------------------
+"
+let g:syntastic_quiet_warnings=1
