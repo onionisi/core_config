@@ -1,4 +1,4 @@
-							
+
 "中文编码
 set encoding=UTF-8
 set langmenu=zh_CN.UTF-8
@@ -12,17 +12,22 @@ colorscheme torte
 set gcr=a:block-blinkon0
 "set guifont=Monaco_Linux-Powerline.ttf\ for\ Powerline
 
-"折叠方式
+"折叠方式，基于缩进或语法
 "set foldmethod=syntax
 set foldmethod=indent
-set foldlevel=99
+"启动时关闭折叠
+set nofoldenable
 
 "高亮显示
 set hlsearch
 
 "高亮当前行
 set cursorline
-					
+set cursorcolumn
+
+"禁止折行
+set nowrap
+
 "设置一行最多80个字符
 set textwidth=80
 
@@ -54,15 +59,17 @@ filetype off
 filetype plugin on
 "根据侦测到的不同类型采用不同的缩进格式
 filetype indent on
-"for python
-"au FileType python set omnifunc=pythoncomplete
 
+"将制表符扩展为空格
+set expandtab
 "设置制表符占用空格数
 set tabstop=4
 "设置自动缩进每一步的空白数目
 set shiftwidth=4
+"让vim吧连续数量的空格视为一个制表符
+set softtabstop=4
 "设置插入<Tab>不为空格为Tab
-set noexpandtab
+"set noexpandtab
 
 "开启实时搜索功能
 set incsearch
@@ -72,6 +79,9 @@ set nocompatible
 
 "取消补全内容以分割子窗口形式出现,只显示补全列表
 set completeopt=longest,menu
+
+"避免行尾空白符
+autocmd BufWritePre * :%s/\s\+$//e
 
 "定义快捷键到各个子窗口
 map <c-j> <c-w>j
@@ -141,6 +151,7 @@ Bundle 'TaskList.vim'
 Bundle 'grep.vim'
 Bundle 'ctrlp.vim'
 Bundle 'Syntastic'
+Bundle 'Indent-Guides'
 
 "non github reposo
 "非github的插件，可以直接使用其git地址
@@ -280,3 +291,15 @@ let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux
 " syntastic ------------------------------------------------------------------
 "
 let g:syntastic_quiet_warnings=1
+
+"
+" Indent-Guides --------------------------------------------------------------
+"
+"随vim启动
+let g:indent_guides_enable_on_vim_startup=1
+"从第二层开始可视化显示缩进
+let g:indent_guides_start_level=2
+"色块宽度
+let g:indent_guides_size=1
+"快捷键 i 开关缩进可视化
+:nmap <silent> <Leader>i <Plug>IndentGuidesToggle

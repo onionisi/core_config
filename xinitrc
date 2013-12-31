@@ -12,6 +12,8 @@ xset fp rehash
 xset +dpms
 xset dpms 0 0 300
 
+export BROWSER=firefox
+export EDITOR=vim
 #-- ime --#
 export XMODIFIERS="@im=fcitx"
 export GTK_IM_MODULE=xim
@@ -26,9 +28,10 @@ fcitx &
 #eval $(cat ~/.fehbg)        # set wallpaper
 #btsync --config ~/.btsyncrc # start btsync
 #urxvtc -e sh -c "tmuxen" &  # start tmux
-nitrogen --restore
+#nitrogen --restore
 xsetroot -cursor_name left_ptr &
-terminator -x tmux -2 &
+#terminator -x tmux -2 &
 
 #-- wm --#
-exec mobar
+#exec mobar
+exec enlightenment_start
