@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+ac_state=`acpi -a|awk '{ print $NF }'`
+bat_percent=`acpi|cut -d ',' -f2`
+
+if [ $ac_state == 'on-line' ]; then
+	echo "AC"
+else
+	echo $bat_percent
+fi

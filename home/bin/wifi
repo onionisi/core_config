@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+wifi = %x(/sbin/iwconfig wlan0)
+essid = $1 if wifi =~ /ESSID:"(.*?)"/
+
+if essid.nil?
+  puts "n/a"
+else
+  puts essid
+end

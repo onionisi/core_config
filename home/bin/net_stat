@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+
+def process_exist? cmd
+  pid = %x(pidof #{cmd})
+  pid.empty? ? false : true
+end
+
+def parse file
+  File.open(file) { |f| f.readline.to_i }
+end
+
+wpa = process_exist? 'wpa_supplicant'
+net = wpa ? 'wlan' : 'eth'
+
+prev_rx_bytes = parse "/sys/class/net/#{net}1/statistics/rx_bytes"
+prev_tx_bytes = parse "/sys/class/net/#{net}1/statistics/tx_bytes"
+
+sleep 1
+
+cur_rx_bytes = parse "/sys/class/net/#{net}1/statistics/rx_bytes"
+cur_tx_bytes = parse "/sys/class/net/#{net}1/statistics/tx_bytes"
+
+rx = ((cur_rx_bytes - prev_rx_bytes).to_f / 1024).to_i
+tx = ((cur_tx_bytes - prev_tx_bytes).to_f / 1024).to_i
+
+if ARGV.shift == 'down'
+  puts "#{rx}KB/s"
+else
+  puts "#{tx}KB/s"
+end

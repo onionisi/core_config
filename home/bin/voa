@@ -1,0 +1,80 @@
+#!/usr/bin/env python2
+
+import sys
+import tempfile
+import requests
+import datetime
+from random import randint
+from bs4 import BeautifulSoup
+from selenium import webdriver
+
+URL = "http://learningenglish.voanews.com/"
+
+
+current = datetime.datetime.now()
+year = randint(2010, current.year)
+month_max = current.month if current.year == year else 12
+
+
+res_1920 = 'nocal-1920x'
+res_2550 = 'nocal-2550x'
+
+fake_head = {"User-Agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36"}
+
+def page_get(url):
+    rc = requests.get(url, headers = fake_head).content
+    page = tempfile.NamedTemporaryFile()
+    page.write(rc)
+    page.seek(0)
+    return page
+
+
+def page_cycle():
+    global URL
+    org_page = page_get(URL)
+    print
+    org = BeautifulSoup(org_page.read(), 'lxml')
+    classes = org.find('div', {'class': 'content_column2_1_row'})
+    print classes
+    all_audio = classes.findAll('a', {'class': 'assignedIcon'})
+    for each in all_audio:
+        print each
+        # link = each['href']
+        # if spec_ym in link:
+        #     link_page = page_get(link)
+        #     pics = BeautifulSoup(link_page.read(), 'lxml')
+        #     all_pics = pics.findAll('a')
+        #     useful = []
+        #     for paper in all_pics:
+        #         loc = paper.get('href')
+        #         if res_1920 in loc or res_2550 in loc:
+        #             useful.append(loc)
+        #     if useful:
+        #         final = useful[randint(0, len(useful)-1)]
+        #         rc = requests.get(final).content
+        #         with tempfile.NamedTemporaryFile() as tmp:
+        #             tmp.write(rc)
+        #             tmp.flush()
+        #             feh('--bg-fill', tmp.name)
+        #             sys.exit(0)
+    # else:
+        # URL = next_page['href']
+
+# page_cycle()
+
+# driver = webdriver.Chrome()
+
+# driver.get(URL)
+
+# print driver.title
+
+# driver.quit()
+
+driver = webdriver.PhantomJS()
+driver.get(URL)
+# driver.find_element_by_id('search_form_input_homepage').send_keys("realpython")
+# driver.find_element_by_id("search_button_homepage").click()
+# print driver.current_url
+data = driver.find_element_by_id('bottom_container').text
+print data
+driver.quit()

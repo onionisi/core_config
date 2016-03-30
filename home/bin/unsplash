@@ -1,0 +1,41 @@
+#!/usr/bin/env python2
+
+import sys
+import tempfile
+import requests
+from sh import feh
+from random import randint
+from bs4 import BeautifulSoup
+
+URL = "http://unsplash.com"
+
+
+def page_get(url):
+    rc = requests.get(url).content
+    page = tempfile.NamedTemporaryFile()
+    page.write(rc)
+    page.seek(0)
+    return page
+
+
+def page_cycle():
+    global URL
+    link_page = page_get(URL)
+    pics = BeautifulSoup(link_page.read(), 'lxml')
+    all_pics = pics.findAll('img', {'class': 'img-responsive'})
+    useful = []
+    for paper in all_pics:
+        src = paper.get('src')
+        useful.append(src)
+    if useful:
+        print(useful)
+        final = useful[randint(0, len(useful)-1)]
+        rc = requests.get(final).content
+        with tempfile.NamedTemporaryFile() as tmp:
+            tmp.write(rc)
+            tmp.flush()
+            feh('--bg-fill', tmp.name)
+            sys.exit(0)
+
+while(1):
+    page_cycle()

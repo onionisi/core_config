@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+PAPER_DIR=~/Pictures/wallpapers
+TMP_FILE=/tmp/wallpaper.tmp
+CAL_FILE=/tmp/cal.tmp
+ 
+SUBYEAR=$((`date +%Y` - 2000))
+YEAR=$((RANDOM % $SUBYEAR + 2000))
+MONTH=$((RANDOM % 12 + 1))
+
+# RESOLUTION=`xrandr|grep \*|awk '{print $1}'`
+RESOLUTION='1920x1440'
+ 
+BASE_URL="http://www.smashingmagazine.com/tag/wallpapers/"
+ 
+function cap_wallpaper_url() {
+    curl $1 2>&1 | tee $TMP_FILE | awk '/wallpaper/&&/www/' | grep $CALENDAR > $CAL_FILE
+ 
+    if [ $? -eq 0 ];then
+        CUR_CAL=`awk -F "\"" '{print $4}' $CAL_FILE | cut -d '#' -f 1`
+        PAPER_URL=`curl $CUR_CAL 2>&1 | grep $RESOLUTION | awk -F "$RESOLUTION" '{print $1}'|awk -F "\"" '{print $NF}'`
+        for each in $PAPER_URL
+        do
+            echo "$each""$RESOLUTION".jpg
+            # wget -c "$each""$RESOLUTION".jpg -P $PAPER_DIR
+        done
+        exit 0
+    else
+        NEXT_PAGE=`grep next $TMP_FILE | head -n1 | awk -F "\"" '{print $4}'`
+        if [ -n $NEXT_PAGE ]; then
+            cap_wallpaper_url $NEXT_PAGE
+        fi
+        echo "So sorry, this calendar's wallpapers've gone to Mars :-)"
+        exit 10
+    fi
+}
+ 
+# if [ $# -ne 1 ]
+# then
+#     echo "smash_wallpaper Version: 0.1"
+#     echo "Usage: `basename $0` YYYY/MM"
+#     exit 65
+# fi
+if [ -z "$1" ];then
+    if [ $MONTH -gt 9 ];then
+        CALENDAR="$YEAR/$MONTH"
+    else
+        CALENDAR="$YEAR/0$MONTH"
+    fi
+else
+    CALENDAR=$1
+fi
+ 
+echo $CALENDAR
+cap_wallpaper_url $BASE_URL

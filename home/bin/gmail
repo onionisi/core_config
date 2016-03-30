@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+require 'inifile'
+require 'gmail_xoauth'
+
+gmail = IniFile.new("#{Dir.home}/.secret")['gmail']
+gmail_token = gmail['token']
+gmail_token_secret = gmail['token_secret']
+
+begin
+  imap = Net::IMAP.new('imap.gmail.com', 993, usessl = true, certs = nil, verify = false)
+  imap.authenticate('XOAUTH', 'iamyangchong@gmail.com',
+                    :consumer_key => 'anonymous',
+                    :consumer_secret => 'anonymous',
+                    :token => gmail_token,
+                    :token_secret => gmail_token_secret,
+                   )
+  msg_count = imap.status('INBOX', ['UNSEEN'])['UNSEEN']
+rescue
+  msg_count = 0
+end

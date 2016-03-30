@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+#===============================================================================
+#
+#      Filename:  bing
+#
+#   Description:  capture for bing's pic
+#
+#       Version:  1.0
+#       Created:  12/11/2012 01:47:45 PM
+#      Revision:  none
+#     Copyright:  GPLv2
+#
+#        Author:  Chong Yang (onionisi)
+#         Email:  echo "aWFteWFuZ2Nob25nQGdtYWlsLmNvbQo=" | base64 -d
+#       Website:  http://onionisi.github.com
+#
+#===============================================================================
+
+HTTP_URL=http://cn.bing.com
+PIC_LINE=`curl $HTTP_URL | grep "1366x768"`
+IMAGE_URL=`echo $PIC_LINE | awk 'BEGIN{FS="url:"}{print $2}'|awk 'BEGIN{FS=".id:"}{print $1}' | tr -d "\'"`
+
+#TODO:There's another pic seem to be a backup
+BAKIMG_URL=`echo $PIC_LINE | awk 'BEGIN{FS="url:"}{print $3}'|awk 'BEGIN{FS=", hash:"}{print $1}' | tr -d "\'"`
+
+IMG_NAME=`echo $IMAGE_URL | awk 'BEGIN{FS="%2f"}{print $2}'`
+DOWN_NAME=`echo ${IMAGE_URL##*/} | awk 'BEGIN{FS="%2f"}{print $1}'`
+
+WALLPAPER_DIR=~/wallpaper
+
+wget -c $IMAGE_URL -P $WALLPAPER_DIR
+mv $WALLPAPER_DIR/$DOWN_NAME* $WALLPAPER_DIR/$IMG_NAME
+
+feh --bg-center $WALLPAPER_DIR/$IMG_NAME
+
+#DOMAIN_URL=http://www.smashingmagazine.com
+#WALLPAPER_URL=$DOWN_NAME/tag/wallpapers/
+#PIC_LINE=`proxychains curl $WALLPAPER_URL | grep "desktop-wallpaper"`
+#IMAGE_URL=`echo $PIC_LINE | awk 'BEGIN{FS="url:"}{print $2}'|awk 'BEGIN{FS=".id:"}{print $1}' | tr -d "\'"`
+
+
+
+## EOF #########################################################################
+# vim:ft=sh expandtab st=4

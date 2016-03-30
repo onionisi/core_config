@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+lsof|grep Flash > /tmp/flashfiles
+
+files=`cat /tmp/flashfiles | awk '{ print $(NF-1) }' | sort | uniq`
+
+for file in $files
+do
+	line=`cat /tmp/flashfiles | grep $file`
+	thread=`echo $line | awk '{ print $2 }'`
+	fd=`echo $line | awk '{ print $4 }'`
+	cat /proc/$thread/fd/${fd%u} > ~/media/vedio/${fd%u}.flv
+	# mencoder -ovc copy -oac mp3lame /tmp/*.flv -o ~/vedio/{$user}.flv
+	# rm -f /tmp/*.flv
+done

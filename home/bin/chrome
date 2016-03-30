@@ -1,0 +1,1 @@
+chromium --force-device-scale-factor=1.8 --proxy-pac-url="file:///home/chong/.proxy.pac" > /dev/null 2>&1

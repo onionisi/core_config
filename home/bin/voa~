@@ -1,0 +1,76 @@
+#!/usr/bin/env python2
+
+import sys
+import tempfile
+import requests
+import datetime
+from sh import feh
+from random import randint
+from bs4 import BeautifulSoup
+
+URL = "http://www.smashingmagazine.com/tag/wallpapers/"
+
+monthes = {
+    1: ["12", "january"],
+    2: ["01", "february"],
+    3: ["02", "march"],
+    4: ["03", "april"],
+    5: ["04", "may"],
+    6: ["05", "june"],
+    7: ["06", "july"],
+    8: ["07", "august"],
+    9: ["08", "september"],
+    10: ["09", "october"],
+    11: ["10", "november"],
+    12: ["11", "december"],
+}
+
+current = datetime.datetime.now()
+year = randint(2010, current.year)
+month_max = current.month if current.year == year else 12
+month = monthes.get(randint(1, month_max))
+
+spec_ym = str(year) + '/' + month[0]
+
+res_1920 = 'nocal-1920x'
+res_2550 = 'nocal-2550x'
+
+
+def page_get(url):
+    rc = requests.get(url).content
+    page = tempfile.NamedTemporaryFile()
+    page.write(rc)
+    page.seek(0)
+    return page
+
+
+def page_cycle():
+    global URL
+    org_page = page_get(URL)
+    org = BeautifulSoup(org_page.read(), 'lxml')
+    next_page = org.find('span', {'class': 'nxt'}).find('a')
+    all_month = org.findAll('a', {'class': 'cr'})
+    for each in all_month:
+        link = each['href']
+        if spec_ym in link:
+            link_page = page_get(link)
+            pics = BeautifulSoup(link_page.read(), 'lxml')
+            all_pics = pics.findAll('a')
+            useful = []
+            for paper in all_pics:
+                loc = paper.get('href')
+                if res_1920 in loc or res_2550 in loc:
+                    useful.append(loc)
+            if useful:
+                final = useful[randint(0, len(useful)-1)]
+                rc = requests.get(final).content
+                with tempfile.NamedTemporaryFile() as tmp:
+                    tmp.write(rc)
+                    tmp.flush()
+                    feh('--bg-fill', tmp.name)
+                    sys.exit(0)
+    else:
+        URL = next_page['href']
+
+while(1):
+    page_cycle()

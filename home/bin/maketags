@@ -1,0 +1,57 @@
+#!/bin/bash
+#
+# =====================================================================================
+#
+#       Filename:  maketags
+#
+#    Description:  just a script for creating tags used by vim with cscope
+#
+#        Version:  1.0
+#        Created:  2012年02月14日 10时41分08秒
+#       Revision:  none
+#       Compiler:  none
+#
+#         Author:  chong yang (onionisi), iamyangchong@gmail.com
+#        Company:  Sichuan Jiuzhou Electronic Technology Co.,Ltd
+#
+# =====================================================================================
+#
+
+ARGS=1
+DIR=`pwd`
+SUCCESS=0
+
+function show_help
+{
+	echo "Usage: maketags [options]"
+	echo
+	echo "options:  -h   usage messages"
+	echo "          -c   delete the old tags"
+}
+
+function delete_tags
+{
+	if [ -f ${DIR}/cscope.out ]
+	then
+		rm -f ${DIR}/{cscope.*,tags}
+	fi
+}
+
+if [ $# -eq $ARGS ]
+then
+	if [ "$1" == "-h" ] || [ "$1" != "-c" ]
+	then
+		show_help
+	elif [ "$1" == "-c" ]
+	then
+		echo "Delete these tags for guiding code!"
+		delete_tags
+	fi
+else
+	delete_tags
+	find ${DIR} -name "*.h" -o -name "*.hh" -o -name "*.c" -o -name "*.cc" > cscope.files
+	cscope -bkq -i cscope.files
+	ctags -R
+fi
+
+exit $SUCCESS

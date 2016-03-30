@@ -1,0 +1,67 @@
+#!/usr/bin/env python2
+# -*- coding:utf-8 -*-
+
+import serial
+import argparse
+
+
+class UartCmd(object):
+    def __init__(self, device, data, reset):
+        self.ser = serial.Serial(
+            port=device,
+            baudrate=9600,
+            parity=serial.PARITY_NONE,
+            stopbits=serial.STOPBITS_ONE,
+            bytesize=serial.EIGHTBITS
+        )
+        if reset == 'usr':
+            self.reset = True
+            self.payload = "QUIT_FACTORY"
+        else:
+            self.reset = False
+            self.payload = data
+        plen = len(self.payload)
+        if (24 - plen):
+            self.payload += '-'*(24-plen)
+        else:
+            self.payload = self.payload[0:24]
+
+    def write(self):
+        if self.ser.isOpen() is False:
+            print("USBserial didn't plugin in")
+            exit()
+
+        if self.reset:
+            header = "\x55\xcc"
+        else:
+            header = "\x55\xff"
+        payload = self.payload
+
+        chk_sum = 0
+        tmp_data = map(ord, header) + map(ord, payload)
+        for each in tmp_data:
+            chk_sum += each
+        end = chr(chk_sum & 255)
+
+        buf = header + payload + end
+        # print len(buf), buf[2:]
+        self.ser.write(buf)
+
+        self.ser.close()
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--device", default='/dev/ttyUSB1',
+                        help="device name of serial port (default: /dev/ttyUSB1)")
+    parser.add_argument("-s", "--serial", default="ACTEST400911700407014911",
+                        help="serial number of device (default: ACTEST400911700407014911)")
+    parser.add_argument("-r", "--reset", default="usr",
+                        help="reset to user smart config mode")
+    args = parser.parse_args()
+    UC_object = UartCmd(args.device, args.serial, args.reset)
+    UC_object.write()
+
+
+if __name__ == '__main__':
+    main()
