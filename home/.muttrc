@@ -1,0 +1,15 @@
+set from = "iamyangchong@gmail.com"
+set realname = "Chong Yang"
+
+set imap_user = "iamyangchong@gmail.com"
+set imap_pass = "fiytnucfpracsezb"
+
+set folder = "imaps://imap.gmail.com:993"
+set spoolfile = "+INBOX"
+set postponed = "+[Gmail]/Drafts"
+
+set header_cache = ~/.mutt/cache/headers
+set message_cachedir = ~/.mutt/cache/bodies
+
+set smtp_url = "smtp://iamyangchong@smtp.gmail.com:587/"
+set smtp_pass = "fiytnucfpracsezb"
