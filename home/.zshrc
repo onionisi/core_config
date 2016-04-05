@@ -44,6 +44,8 @@ alias vi=nvim
 alias emacs="emacs -nw -Q"
 alias fansp="sensors|grep RPM|cut -d' ' -f5-6"
 alias netconf="sudo ifconfig eth0 192.168.2.100 && sudo route add default gw 192.168.2.1 && sudo sh -c \"echo 'nameserver 10.3.8.1' > /etc/resolv.conf\""
+alias capacity="upower -i /org/freedesktop/UPower/devices/battery_BAT0|grep capacity"
+alias winfs="sudo /usr/local/bin/sshd -D&"
 
 # for the path
 export PATH="$HOME/bin:$HOME/go/bin:$PATH"
