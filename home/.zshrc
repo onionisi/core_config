@@ -36,6 +36,20 @@ source $ZSH/oh-my-zsh.sh
 
 # Customize...
 
+# for the path
+export PATH="$HOME/bin:$HOME/go/bin:$PATH"
+export GOPATH="$HOME/go"
+export NQDIR="$HOME/.nq"
+export VISUAL="vim"
+export EDITOR="vim"
+# for cross toolchain
+export PATH=/home/chong/code/esp-open-sdk/xtensa-lx106-elf/bin:/opt/wm_tool_chains/gcc-arm-none-eabi-4_9-2014q4/bin:$PATH
+
+eval "$(pyenv virtualenv-init -)"
+[ -f /etc/profile.d/fzf.zsh ] && source /etc/profile.d/fzf.zsh
+eval "$(cat ~/.fehbg)"
+
+
 alias -s pdf=mupdf
 alias -s md=remarkable
 alias -s mt=chrome
@@ -45,21 +59,14 @@ alias emacs="emacs -nw -Q"
 alias fansp="sensors|grep RPM|cut -d' ' -f5-6"
 alias netconf="sudo ifconfig eth0 192.168.2.100 && sudo route add default gw 192.168.2.1 && sudo sh -c \"echo 'nameserver 10.3.8.1' > /etc/resolv.conf\""
 alias capacity="upower -i /org/freedesktop/UPower/devices/battery_BAT0|grep capacity"
-alias winfs="sudo /usr/local/bin/sshd -D&"
+alias winfs="(sudo /usr/local/bin/sshd -D&)"
+alias kx="sudo killall Xorg"
 
-# for the path
-export PATH="$HOME/bin:$HOME/go/bin:$PATH"
-export GOPATH="$HOME/go"
-export NQDIR="$HOME/.nq"
-
-eval "$(pyenv virtualenv-init -)"
-[ -f /etc/profile.d/fzf.zsh ] && source /etc/profile.d/fzf.zsh
-
-# for the esp8266 cross toolchain
-export PATH=/home/chong/code/esp-open-sdk/xtensa-lx106-elf/bin:/opt/wm_tool_chains/gcc-arm-none-eabi-4_9-2014q4/bin:$PATH
 hash -d W="/opt/qca4004/target"
 hash -d C="/opt/AirCleaner/target"
 hash -d M="/opt/marvell/wmsdk_bundle-3.1.16"
+hash -d N="/opt/marvell/wmsdk_bundle-3.3.30"
 hash -d E="/opt/esp_iot_rtos_sdk"
 hash -d T="/opt/tutor/source"
 hash -d J="/opt/joylink"
+hash -d G="/opt/govwd"

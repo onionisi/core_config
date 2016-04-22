@@ -17,4 +17,5 @@
 	di = diff
 	ds = diff --staged
 	st = status
+	ci = commit
 	amend = commit --amend -a

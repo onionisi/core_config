@@ -27,7 +27,6 @@ xflux -l 31 -g 104 &
 #unclutter -idle 5 &         # hide mouse cursor
 #syndaemon -t -k -i 2 -d &   # disable trackpad while typing
 #urxvtd -q -f -o             # urxvt daemon
-#eval $(cat ~/.fehbg)        # set wallpaper
 #urxvtc -e sh -c "tmuxen" &  # start tmux
 #xrandr --output LVDS1 --off --output HDMI1 --auto
 #nitrogen --restore
