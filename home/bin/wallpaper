@@ -1,14 +1,18 @@
 #!/usr/bin/env python2
 
+import os
 import sys
+import argparse
 import tempfile
 import requests
 import datetime
-from sh import feh
+from sh import feh, cp
 from random import randint
 from bs4 import BeautifulSoup
+from time import sleep
 
 URL = "http://www.smashingmagazine.com/tag/wallpapers/"
+WLPP = "/home/chong/Pictures/wallpapers/"
 
 monthes = {
     1: ["12", "january"],
@@ -25,26 +29,24 @@ monthes = {
     12: ["11", "december"],
 }
 
-current = datetime.datetime.now()
-year = randint(2010, current.year)
-month_max = current.month if current.year == year else 12
-month = monthes.get(randint(1, month_max))
-
-spec_ym = str(year) + '/' + month[0]
 
 res_1920 = 'nocal-1920x'
 res_2550 = 'nocal-2550x'
+headers = {
+    'User-Agent': 'Mozilla/6.0 (Macintosh; Intel Mac OS X 10_10_1) \
+    AppleWebKit/537.36 (KHTML, like Gecko) \
+    Chrome/40.0.2171.95 Safari/537.36'}
 
 
 def page_get(url):
-    rc = requests.get(url).content
+    rc = requests.get(url, headers=headers).content
     page = tempfile.NamedTemporaryFile()
     page.write(rc)
     page.seek(0)
     return page
 
 
-def page_cycle():
+def page_cycle(cal):
     global URL
     org_page = page_get(URL)
     org = BeautifulSoup(org_page.read(), 'lxml')
@@ -52,7 +54,7 @@ def page_cycle():
     all_month = org.findAll('a', {'class': 'cr'})
     for each in all_month:
         link = each['href']
-        if spec_ym in link:
+        if cal in link:
             link_page = page_get(link)
             pics = BeautifulSoup(link_page.read(), 'lxml')
             all_pics = pics.findAll('a')
@@ -61,16 +63,69 @@ def page_cycle():
                 loc = paper.get('href')
                 if res_1920 in loc or res_2550 in loc:
                     useful.append(loc)
-            if useful:
-                final = useful[randint(0, len(useful)-1)]
-                rc = requests.get(final).content
-                with tempfile.NamedTemporaryFile() as tmp:
-                    tmp.write(rc)
-                    tmp.flush()
-                    feh('--bg-fill', tmp.name)
-                    sys.exit(0)
+            checker(useful)
     else:
         URL = next_page['href']
 
-while(1):
-    page_cycle()
+
+def nother(url):
+    try:
+        resp = requests.get(url, headers=headers)
+        return resp
+    except requests.exceptions.ConnectionError:
+        sleep(1)
+        nother(url)
+
+
+def checker(pics):
+    if pics:
+        final = pics[randint(0, len(pics) - 1)]
+        rc = nother(final).content
+        filename = WLPP + os.path.basename(final)
+        with tempfile.NamedTemporaryFile() as tmp:
+            tmp.write(rc)
+            tmp.flush()
+            feh('-g', '800x600', tmp.name)
+            yn = raw_input("nice or suck?")
+            if yn == 'y':
+                cp('-f', tmp.name, filename)
+                feh('--bg-fill', filename)
+                sys.exit(0)
+            else:
+                pics.remove(final)
+                checker(pics)
+
+
+def main():
+    current = datetime.datetime.now()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-r", "--random", default=0,
+                        type=int, help="last few years")
+    parser.add_argument("-m", "--month", default=None,
+                        type=int, help="which month of this year")
+    parser.add_argument("-y", "--year", default=None,
+                        type=int, help="month of which year")
+    args = parser.parse_args()
+
+    if args.random >= 0:
+        year = randint(current.year - args.random, current.year)
+        month = monthes.get(randint(1, current.month
+                                    if current.year == year else 12))
+    elif args.month:
+        month = monthes.get(args.month)
+        print('M', month)
+    elif args.year:
+        year = args.year
+        print('Y', year)
+
+    if month == 1:
+        year -= 1
+
+    spec_ym = str(year) + '/' + month[0]
+    print(spec_ym)
+    while(1):
+        page_cycle(spec_ym)
+
+
+if __name__ == '__main__':
+    main()

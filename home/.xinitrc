@@ -20,6 +20,7 @@ xset fp rehash
 
 sudo /home/chong/bin/fanctl > /dev/null &
 xflux -l 31 -g 104 &
+# eval "$(cat ~/.fehbg)"
 #workrave &
 #redshift -l 31:104
 #xmodmap ~/.xmodmaprc &      # swap Caps_Lock and Control_L

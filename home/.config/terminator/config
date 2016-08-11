@@ -1,5 +1,7 @@
 [global_config]
 [keybindings]
+  switch_to_tab_1 = <Primary>1
+  switch_to_tab_2 = <Primary>2
 [layouts]
   [[default]]
     [[[child1]]]

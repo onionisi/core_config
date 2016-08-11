@@ -43,11 +43,11 @@ export NQDIR="$HOME/.nq"
 export VISUAL="vim"
 export EDITOR="vim"
 # for cross toolchain
-export PATH=/home/chong/code/esp-open-sdk/xtensa-lx106-elf/bin:/opt/wm_tool_chains/gcc-arm-none-eabi-4_9-2014q4/bin:$PATH
+export PATH=/home/chong/code/esp-open-sdk/xtensa-lx106-elf/bin:/opt/wm_tool_chains/gcc-arm-none-eabi-4_9-2015q3/bin:$PATH
 
 eval "$(pyenv virtualenv-init -)"
+eval "$(thefuck --alias)"
 [ -f /etc/profile.d/fzf.zsh ] && source /etc/profile.d/fzf.zsh
-eval "$(cat ~/.fehbg)"
 
 
 alias -s pdf=mupdf
@@ -66,7 +66,11 @@ hash -d W="/opt/qca4004/target"
 hash -d C="/opt/AirCleaner/target"
 hash -d M="/opt/marvell/wmsdk_bundle-3.1.16"
 hash -d N="/opt/marvell/wmsdk_bundle-3.3.30"
+hash -d L="/opt/marvell/wmsdk_bundle-3.4.6"
 hash -d E="/opt/esp_iot_rtos_sdk"
 hash -d T="/opt/tutor/source"
 hash -d J="/opt/joylink"
+hash -d S0="/opt/DKRJ627"
+hash -d S1="/opt/DKRJ689"
 hash -d G="/opt/govwd"
+hash -d U="/opt/suning"

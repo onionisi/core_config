@@ -9,21 +9,20 @@ class UartCmd(object):
     def __init__(self, device, data, reset):
         self.ser = serial.Serial(
             port=device,
-            baudrate=9600,
+            baudrate=19200,
             parity=serial.PARITY_NONE,
-            stopbits=serial.STOPBITS_ONE,
+            stopbits=serial.STOPBITS_TWO,
             bytesize=serial.EIGHTBITS
         )
         if reset:
             self.reset = True
-            self.payload = "QUIT_FACTORY"
+            payh = '\x0'*7
+            rst = '\x10'
+            payl = '\x0'*37
+            self.payload = payh + rst + payl
         else:
             self.reset = False
             self.payload = data
-        plen = len(self.payload)
-        if (24 - plen):
-            self.payload += '-'*(24-plen)
-        else:
             self.payload = self.payload[0:24]
 
     def write(self):
@@ -32,7 +31,7 @@ class UartCmd(object):
             exit()
 
         if self.reset:
-            header = "\x55\xcc"
+            header = "\x55\xaa"
         else:
             header = "\x55\xff"
         payload = self.payload
@@ -44,7 +43,7 @@ class UartCmd(object):
         end = chr(chk_sum & 255)
 
         buf = header + payload + end
-        # print len(buf), buf[2:]
+        print len(buf), buf[2:]
         self.ser.write(buf)
 
         self.ser.close()

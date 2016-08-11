@@ -194,7 +194,9 @@ colorscheme solarized
 let g:rehash256 = 1
 
 " YouCompleteMe --------------------------------------------------------------
-let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+let g:ycm_server_python_interpreter = '/usr/bin/python3'
+let g:ycm_python_binary_path = '/usr/bin/python2'
+let g:ycm_global_ycm_extra_conf = '~/.ycm/ycm_extra_conf.py'
 let g:ycm_min_num_of_chars_for_completion = 4
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_seed_identifiers_with_syntax = 1
