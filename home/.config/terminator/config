@@ -15,10 +15,9 @@
   [[default]]
     background_color = "#002b36"
     background_darkness = 0.78
-    background_image = None
     background_type = transparent
     cursor_color = "#e43434"
-    font = M+ 1mn 12
+    font = Iosevka Italic 11
     foreground_color = "#839496"
     icon_bell = False
     scrollbar_position = hidden
