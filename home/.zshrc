@@ -30,7 +30,7 @@ ZSH_THEME="simple"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(systemd git github vundle colored-man-pages emoji archlinux pyenv rbenv nvm)
+plugins=(systemd git github vundle colored-man-pages emoji archlinux pyenv rbenv nvm safe-paste)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -43,11 +43,12 @@ export NQDIR="$HOME/.nq"
 export VISUAL="vim"
 export EDITOR="vim"
 # for cross toolchain
-export PATH=/home/chong/code/esp-open-sdk/xtensa-lx106-elf/bin:/opt/wm_tool_chains/gcc-arm-none-eabi-4_9-2015q3/bin:$PATH
+export PATH=/home/chong/code/esp-open-sdk/xtensa-lx106-elf/bin:/opt/gcc-arm-none-eabi/gcc-arm-none-eabi-4_9-2015q3/bin:$PATH
 
 eval "$(pyenv virtualenv-init -)"
 eval "$(thefuck --alias)"
-[ -f /etc/profile.d/fzf.zsh ] && source /etc/profile.d/fzf.zsh
+[ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
+[ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
 
 
 alias -s pdf=mupdf
@@ -62,21 +63,21 @@ alias capacity="upower -i /org/freedesktop/UPower/devices/battery_BAT0|grep capa
 alias winfs="(sudo /usr/local/bin/sshd -D&)"
 alias kx="sudo killall Xorg"
 # alias td="tmux detach -s `tmux list-sessions|grep 'attached'|cut -d':' -f1`"
-alias td="tmux detach -s 0"
-alias ta="tmux -2 attach -t 0"
+alias td="tmux detach -s"
+alias ta="tmux -2 attach -t"
 alias server="python2 -m SimpleHTTPServer"
 # alias port="port(){lsof -i tcp:$@;};port $1"
+alias opera="(opera --proxy-server='socks://127.0.0.1:1080' > /dev/null 2>&1 &)"
+alias timestamp="date +%y%m%d%t%H:%M"
 
-hash -d W="/opt/qca4004/target"
-hash -d C="/opt/AirCleaner/target"
-hash -d M="/opt/marvell/wmsdk_bundle-3.1.16"
-hash -d N="/opt/marvell/wmsdk_bundle-3.3.30"
-hash -d L="/opt/marvell/wmsdk_bundle-3.4.6"
-hash -d E="/opt/esp_iot_rtos_sdk"
-hash -d T="/opt/tutor/source"
-hash -d J="/opt/joylink"
-hash -d S0="/opt/DKRJ627"
-hash -d S1="/opt/DKRJ689"
-hash -d G="/opt/gome"
-hash -d U="/opt/suning"
-hash -d A="/opt/qca4004_sdk_3.3.4CS3/target"
+hash -d W="/opt/sdk/qca4004/qca4004/target"
+hash -d C="/opt/sdk/qca4004/AirCleaner/target"
+hash -d A="/opt/sdk/qca4004/qca4004_sdk_3.3.4CS3/target"
+hash -d E="/opt/sdk/esp8266/esp_iot_rtos_sdk"
+hash -d M="/opt/sdk/mw300/current"
+hash -d J="/opt/app/joylink"
+hash -d G="/opt/app/gome"
+hash -d U="/opt/app/suning"
+hash -d S0="/opt/app/DKRJ627"
+hash -d S1="/opt/app/DKRJ689"
+hash -d T="/opt/app/tutor/source"
