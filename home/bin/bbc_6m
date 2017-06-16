@@ -1,0 +1,50 @@
+#!/usr/bin/env python2
+
+import sys
+import os
+import tempfile
+import requests
+from bs4 import BeautifulSoup
+from sh import wget
+
+URL = "http://www.bbc.co.uk/learningenglish/english/features/6-minute-english"
+ORG = "http://www.bbc.co.uk"
+PATH = "/home/chong/voa/"
+
+fake_head = {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36"}
+
+
+def page_get(url):
+    rc = requests.get(url, headers=fake_head).content
+    page = tempfile.NamedTemporaryFile()
+    page.write(rc)
+    page.seek(0)
+    return page
+
+
+def page_cycle():
+    org_page = page_get(URL)
+    org = BeautifulSoup(org_page.read(), 'lxml')
+    classes = org.find('ul', {'class': 'threecol'})
+    all_link = classes.findAll('a')
+    links = set(all_link)
+    print("%d links in total" % len(links))
+    for each in links:
+        link = ORG + each.get('href')
+        link_page = page_get(link)
+        pg = BeautifulSoup(link_page.read(), 'lxml')
+        mp3 = pg.find('a', {'class': 'bbcle-download-extension-mp3'})
+        loc = mp3.get('href')
+        print(loc)
+        name = loc.split('/')[-1]
+        if os.path.exists(PATH + name):
+            print("%s exists" % name)
+            continue
+        else:
+            wget('-P', PATH, loc)
+            print("New audio downloaded")
+            sys.exit(0)
+
+
+page_cycle()
