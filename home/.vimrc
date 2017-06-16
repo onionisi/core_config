@@ -124,7 +124,10 @@ call vundle#begin()
 Plugin 'gmarik/Vundle'
 
 "repos on github
-Plugin 'Valloric/YouCompleteMe'
+"
+"managed by yaourt avoid manual install
+" Plugin 'Valloric/YouCompleteMe' 
+Plugin 'rdnetto/YCM-Generator' 
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'ervandew/supertab'
@@ -150,6 +153,7 @@ Plugin 'plasticboy/vim-markdown'
 Plugin 'elzr/vim-json'
 Plugin 'fatih/vim-go'
 Plugin 'klen/python-mode'
+Plugin 'jceb/vim-orgmode'
 
 Plugin 'flazz/vim-colorschemes'
 Plugin 'jlanzarotta/colorSchemeExplorer'
@@ -188,19 +192,25 @@ au FileType c,cpp setlocal ts=4 sw=4 sts=4 et
 let g:vundle_default_git_proto='git'
 
 "需要插件加载完毕，否则报错
-set background=dark
-colorscheme solarized
-"colorscheme molokai
+" set background=dark
+" colorscheme solarized
+" colorscheme molokai
+colorscheme Tomorrow-Night-Eighties
 let g:rehash256 = 1
 
 " YouCompleteMe --------------------------------------------------------------
 let g:ycm_server_python_interpreter = '/usr/bin/python3'
-let g:ycm_python_binary_path = '/usr/bin/python2'
+let g:ycm_python_binary_path = 'python'
+let g:ycm_log_level = 'error'
 let g:ycm_global_ycm_extra_conf = '~/.ycm/ycm_extra_conf.py'
 let g:ycm_min_num_of_chars_for_completion = 4
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_confirm_extra_conf = 0
+let g:ycm_autoclose_preview_window_after_completion = 1
+map <Leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+au FileType c,cpp,objc,objcpp map <Leader>gp :YcmCompleter GetParent<CR>
+au FileType python,javascript,typescript map <Leader>gr :YcmCompleter GoToReferences<CR>
 
 " cscope ---------------------------------------------------------------------
 "设置使用quickfix显示cscope结果，目前与cscope_macro插件有冲突
@@ -282,7 +292,7 @@ let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 
 " Gundo     ------------------------------------------------------------------
-map <Leader>g :GundoToggle<CR>
+map <Leader>ud :GundoToggle<CR>
 
 " TaskList  ------------------------------------------------------------------
 map <Leader>td <Plug>TaskList
