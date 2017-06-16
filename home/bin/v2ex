@@ -1,0 +1,25 @@
+#!/usr/bin/env python2
+
+import sys
+import os
+import requests
+import json
+
+URL = "https://www.v2ex.com/api/topics/hot.json"
+
+fake_head = {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36"}
+
+
+def hot():
+    rc = requests.get(URL, headers=fake_head).content
+    hots = json.loads(rc)
+    for each in hots:
+        print('=================')
+        print(each.get('title'))
+        print('-----------------')
+        print(each.get('content'))
+        print(each.get('url'))
+
+
+hot()
