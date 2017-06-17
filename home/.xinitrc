@@ -12,7 +12,7 @@
 #-- font --#
 xset +fp /usr/share/fonts/local
 xset fp rehash
-xrdb --load /homg/chong/.Xresources
+xrdb -load /homg/chong/.Xresources
 
 #-- powersave --#
 # xset +dpms
@@ -20,11 +20,11 @@ xrdb --load /homg/chong/.Xresources
 # xset m 20/10 10 r rate 500 30 b on
 
 sudo /home/chong/bin/fanctl > /dev/null &
-# xflux -l 31 -g 104 &
-# eval "$(cat ~/.fehbg)"
+eval "$(cat ~/.fehbg)"
+xmodmap ~/.xmodmaprc &      # swap Caps_Lock and Control_L
+#xflux -l 31 -g 104 &
 #workrave &
 #redshift -l 31:104
-#xmodmap ~/.xmodmaprc &      # swap Caps_Lock and Control_L
 #compton -cGb                # add fancy shadows
 #unclutter -idle 5 &         # hide mouse cursor
 #syndaemon -t -k -i 2 -d &   # disable trackpad while typing
