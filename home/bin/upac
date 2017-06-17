@@ -1,3 +1,17 @@
-#proxychains wget https://autoproxy-gfwlist.googlecode.com/svn/trunk/gfwlist.txt -O ~/.gfwlist > /dev/null 2>&1
-wget http://www.firefoxfan.com/gfwlist/gfwlist.txt -O ~/.gfwlist > /dev/null 2>&1
-gfwlist2pac -i ~/.gfwlist -f ~/.proxy.pac -p "SOCKS5 127.0.0.1:1080"
+#!/usr/bin/env bash
+
+GFWLIST=$HOME/code/gfwlist
+USERLIST=$HOME/.across
+PACFILE=$HOME/.proxy.pac
+
+
+if [ -d $GFWLIST ]; then
+    cd $GFWLIST && git pull
+    gfwlist2pac -i $GFWLIST/gfwlist.txt -f $PACFILE -p "SOCKS5 127.0.0.1:1080"
+    sed -i "/^var domains/r "<(cat $USERLIST) $PACFILE
+    echo "Done."
+else
+    echo "There is no gfwlist, go and find it."
+    exit 10
+fi
+
