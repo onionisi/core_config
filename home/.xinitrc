@@ -12,7 +12,7 @@
 #-- font --#
 xset +fp /usr/share/fonts/local
 xset fp rehash
-xrdb -load /homg/chong/.Xresources
+xrdb -merge ~/.Xresources
 
 #-- powersave --#
 # xset +dpms
@@ -43,9 +43,14 @@ xsetroot -cursor_name left_ptr &
 # ibus-daemon -drx
 #export GTK_IM_MODULE_FILE=/etc/gtk-2.0/gtk.immodules
 # FCITX
-export GTK_IM_MODULE=fcitx
-export QT_IM_MODULE=fcitx
-export XMODIFIERS=@im=fcitx
+# export GTK_IM_MODULE=fcitx
+# export QT_IM_MODULE=fcitx
+# export XMODIFIERS=@im=fcitx
+# YONG
+export GTK_IM_MODULE=yong
+export QT_IM_MODULE=yong
+export XMODIFIERS=@im=yong
+yong -d
 
 #-- wm --#
 #exec i3

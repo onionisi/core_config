@@ -34,10 +34,10 @@ URxvt.lineSpace:            0
 URxvt.allow_bold:           false
 ! URxvt.font: -*-terminus-medium-r-normal-*-12-120-72-72-c-60-iso8859-1
 ! URxvt*boldfont: xft:Monaco Bold:pixelsize=28,xft:Microsoft Yahei:pixesize=28
-! URxvt*font: xft:xos4 Terminus:pixelsize=26,xft:Microsoft Yahei:pixesize=30
-! URxvt*font: xft:Monaco:pixelsize=28,xft:Microsoft Yahei:pixesize=28
 ! URxvt*font: xft:M+ 1mn:pixelsize=28,xft:Microsoft Yahei:pixesize=28
-URxvt*font: xft:Iosevka:Italic:pixelsize=30
+! URxvt*font: xft:xos4 Terminus:pixelsize=26
+! URxvt*font: xft:Monaco:pixelsize=28
+URxvt*font: xft:Iosevka:Italic:pixelsize=26
 
 ! Fix font space
 URxvt*letterSpace: -1
