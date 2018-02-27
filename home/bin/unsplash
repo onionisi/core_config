@@ -1,41 +1,72 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 
-import sys
+import urllib
 import tempfile
-import requests
-from sh import feh
-from random import randint
-from bs4 import BeautifulSoup
+import datetime
+import argparse
+from sh import feh, wget, cp, sleep
+from unsplash.api import Api
+from unsplash.auth import Auth
 
-URL = "http://unsplash.com"
+# id and secret coming from the unsplash developed register
+client_id = "ed14f16dbae5d3158e08cf18975842d4cb41b5327665d2a5c3a0f3c49d6091fa"
+client_secret = \
+    "648b3d1861cd72bfa01de3d48de7fb836c82fd58dff47e98fefab12df8d9b14b"
+redirect_uri = ""
+code = ""
+auth = Auth(client_id, client_secret, redirect_uri, code=code)
+api = Api(auth)
 
 
-def page_get(url):
-    rc = requests.get(url).content
-    page = tempfile.NamedTemporaryFile()
-    page.write(rc)
-    page.seek(0)
-    return page
-
-
-def page_cycle():
-    global URL
-    link_page = page_get(URL)
-    pics = BeautifulSoup(link_page.read(), 'lxml')
-    all_pics = pics.findAll('img', {'class': 'img-responsive'})
-    useful = []
-    for paper in all_pics:
-        src = paper.get('src')
-        useful.append(src)
-    if useful:
-        print(useful)
-        final = useful[randint(0, len(useful)-1)]
-        rc = requests.get(final).content
+def capture(wallpaper, args):
+    # param count [integer]: The number of photos to return. (Default: 1; max: 30)
+    # param category: Category ID(‘s) to filter selection. If multiple, comma-separated. (deprecated)
+    # param collections: Public collection ID(‘s) to filter selection. If multiple, comma-separated
+    # param featured: Limit selection to featured photos.
+    # param username:    Limit selection to a single user.
+    # param query: Limit selection to photos matching a search term.
+    # param w: Image width in pixels.
+    # param h: Image height in pixels.
+    # param orientation: Filter search results by photo orientation.
+    links = api.photo.random(
+        # w=args.width, h=args.height,
+        count=args.count, collections=("1053828")
+    )
+    for image in links:
         with tempfile.NamedTemporaryFile() as tmp:
-            tmp.write(rc)
-            tmp.flush()
-            feh('--bg-fill', tmp.name)
-            sys.exit(0)
+            wget('-qO', tmp.name, image.urls.full)
+            if args.count == 1:
+                feh('--bg-fill', tmp.name)
+            else:
+                feh('-g', '800x600', tmp.name)
+                if (input("Nice or suck?(y/N)") or 'N') == 'y':
+                    cp('-f', tmp.name, wallpaper)
+                    feh('--bg-fill', wallpaper)
 
-while(1):
-    page_cycle()
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-C", "--count", default=1,
+                        type=int, help="count number")
+    parser.add_argument("-W", "--width", default=1920,
+                        type=int, help="picture width pixels")
+    parser.add_argument("-H", "--height", default=1080,
+                        type=int, help="picture height pixels")
+    args = parser.parse_args()
+
+    current = datetime.datetime.now()
+    picture = "/home/chong/Pictures/wallpapers/" \
+        + current.strftime("%Y%m%d%H%M%S")
+
+    while(1):
+        try:
+            urllib.request.urlopen("http://www.baidu.com")
+        except:
+            sleep("2m")   # wait the network
+        else:
+            capture(picture, args)
+            sleep("1h")
+
+
+if __name__ == '__main__':
+    main()
