@@ -87,3 +87,16 @@ hash -d Q="/opt/sdk/qca4004/current/target"
 hash -d E="/opt/sdk/esp8266/esp_iot_rtos_sdk"
 hash -d M="/opt/sdk/mw300/current"
 hash -d T="/opt/app/tutor/source"
+hash -d W="/opt/sdk/esp8266/ESP8266_RTOS_SDK/wheel"
+
+function gi() { curl -Ls https://www.gitignore.io/api/$@ ;}
+function cheat() { curl cheat.sh/$@ ;}
+function weather() { curl wttr.in/$@ ;}
+# function ipinfo() { curl -Ls tbip.alicdn.com/api/queryip | jq -r '.data' ;}
+function publicip() { curl ipinfo.io ;}
+function currency() { curl -Ls api.fixer.io/latest?symbols=CNY,USD,GBP,EUR,AUD\&base=$@ | json_reformat ;}
+function qrify() { input=$(echo "$@" | sed s/" "/%20/g); curl qrenco.de/$input ;}
+
+# load nerd font
+[ -f /usr/lib/nerd-fonts-complete/scripts/lib/i_all.sh ] && source /usr/lib/nerd-fonts-complete/scripts/lib/i_all.sh
+[ -f /home/chong/.nix-profile/etc/profile.d/nix.sh ] && source /home/chong/.nix-profile/etc/profile.d/nix.sh 
