@@ -30,25 +30,34 @@ ZSH_THEME="simple"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(systemd git github vundle colored-man-pages emoji archlinux pyenv rbenv nvm safe-paste)
+plugins=(systemd git github vundle colored-man-pages emoji archlinux pyenv rbenv nvm safe-paste thefuck)
 
 source $ZSH/oh-my-zsh.sh
 
 # Customize...
 
-# for the path
-export PATH="$HOME/bin:/opt/go/bin:$PATH"
-export GOPATH="/opt/go"
+# export PYTHONDONTWRITEBYTECODE=1
 export NQDIR="$HOME/.nq"
 export VISUAL="vim"
 export EDITOR="vim"
+export AURDEST="/tmp/pacaur"
+export GOPATH="/opt/go"
+export PATH="$GOPATH/bin:$PATH:/opt/mos/bin"
 # for cross toolchain
 export PATH=/home/chong/code/esp-open-sdk/xtensa-lx106-elf/bin:/opt/gcc-arm-none-eabi/gcc-arm-none-eabi-4_9-2015q3/bin:$PATH
 
-eval "$(pyenv virtualenv-init -)"
-eval "$(thefuck --alias)"
 [ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
 [ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
+if [[ -x /usr/bin/fzf ]] && [[ -x /usr/bin/ag ]]; then
+    export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND"
+    export FZF_DEFAULT_OPTS='
+    --color fg:242,bg:236,hl:65,fg+:15,bg+:239,hl+:108
+    --color info:108,prompt:109,spinner:108,pointer:168,marker:168
+    '
+fi
+[ -f /etc/grc.zsh ] && source /etc/grc.zsh
 
 
 alias -s pdf=mupdf
