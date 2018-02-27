@@ -61,8 +61,8 @@ fi
 
 
 alias -s pdf=mupdf
-alias -s md=remarkable
-alias -s mt=chrome
+alias -s md=typora
+alias -s mt=firefox
 alias u='du -sh'
 alias vi=nvim
 alias emacs="emacs -nw"
@@ -72,10 +72,16 @@ alias winfs="(sudo /usr/local/bin/sshd -D&)"
 alias kx="sudo killall Xorg"
 alias td="tmux detach -s"
 alias ta="tmux -2 attach -t"
+alias ns="sudo netctl-auto switch-to"
 alias server="python3 -m http.server || python2 -m SimpleHTTPServer"
-alias port="lsof -i "
 alias opera="(opera --proxy-server='socks://127.0.0.1:1080' > /dev/null 2>&1 &)"
-alias timestamp="date +%y%m%d%t%H:%M"
+alias port="lsof -i "
+alias tdic="date +%y%m%d%t%H:%M >> ~/.dic"
+alias timestamp="date +%y%m%d%H%M"
+alias sk="xmodmap ~/.xmodmaprc"
+alias jedi_venv="cd ~/code/JediHTTP && python setup.py install && cd -"
+alias dim="xbacklight -dec 5"
+alias lit="xbacklight -inc 5"
 
 hash -d Q="/opt/sdk/qca4004/current/target"
 hash -d E="/opt/sdk/esp8266/esp_iot_rtos_sdk"
