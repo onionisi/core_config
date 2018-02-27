@@ -124,7 +124,7 @@ let g:python3_host_prog = '/opt/pyenv/versions/py3neovim/bin/python'
 ">>>>插件相关配置
 
 " vundle ----------------------------------------------------------------------
-set rtp+=~/.vim/bundle/Vundle/
+set rtp+=~/.vim/bundle/Vundle.vim/
 call vundle#begin()
 
 Plugin 'gmarik/Vundle'
