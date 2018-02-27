@@ -193,8 +193,19 @@ sudo-proxychains-line() {
     zle end-of-line
 }
 zle -N sudo-proxychains-line
-#定义快捷键为： [Esc] [Esc]
+#定义快捷键为： [Esc] p
 bindkey "\ep" sudo-proxychains-line
+
+#定义功能 s
+sudo-s-line() {
+    [[ -z $BUFFER ]] && zle up-history
+    [[ $BUFFER != s\ * ]] && BUFFER="s $BUFFER"
+#光标移动到行末
+    zle end-of-line
+}
+zle -N sudo-s-line
+#定义快捷键为： [Esc] 
+bindkey "\es" sudo-s-line
 
 #定义功能 sudo
 sudo-command-line() {
