@@ -113,8 +113,14 @@ vnoremap <Leader>y "+y
 "设置快捷键将系统剪贴板内容粘贴至 vim
 nnoremap <Leader>p "+p
 nnoremap <Leader>P "+P
+" Shortcut to rapidly toggle `set list`
+nmap <leader>l :set list!<CR>
+"
+" " Use the same symbols as TextMate for tabstops and EOLs
+set listchars=tab:▸\ ,eol:¬
 
-">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+let g:python_host_prog = '/opt/pyenv/versions/py2neovim/bin/python'
+let g:python3_host_prog = '/opt/pyenv/versions/py3neovim/bin/python'
 ">>>>插件相关配置
 
 " vundle ----------------------------------------------------------------------
@@ -128,11 +134,13 @@ Plugin 'gmarik/Vundle'
 "managed by yaourt avoid manual install
 " Plugin 'Valloric/YouCompleteMe' 
 Plugin 'rdnetto/YCM-Generator' 
+Plugin 'jsfaint/gen_tags.vim' 
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'ervandew/supertab'
 " Plugin 'scrooloose/syntastic'
-Plugin 'benekastah/neomake'
+" Plugin 'benekastah/neomake'
+Plugin 'w0rp/ale'
 Plugin 'scrooloose/nerdtree'
 Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
@@ -140,37 +148,50 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'junegunn/fzf.vim'
 Plugin 'mattn/emmet-vim'
 Plugin 'terryma/vim-multiple-cursors'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-commentary'
 Plugin 'sjl/gundo.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'godlygeek/tabular'
 Plugin 'tpope/vim-sleuth'
-Plugin 'rking/ag.vim'
+" Plugin 'rking/ag.vim'
+Plugin 'mileszs/ack.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-obsession'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-repeat'
+Plugin 'alvan/vim-closetag'
 
 Plugin 'plasticboy/vim-markdown'
+Plugin 'iamcco/markdown-preview.vim'
 Plugin 'elzr/vim-json'
 Plugin 'fatih/vim-go'
+Plugin 'zah/nim.vim'
 Plugin 'klen/python-mode'
 Plugin 'jceb/vim-orgmode'
 
 Plugin 'flazz/vim-colorschemes'
 Plugin 'jlanzarotta/colorSchemeExplorer'
+Plugin 'dracula/vim'
 Plugin 'sjl/vitality.vim'
 Plugin 'Chiel92/vim-autoformat'
 
-Plugin 'wookiehangover/jshint.vim'
+Plugin 'sheerun/vim-polyglot'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'kchmck/vim-coffee-script'
+
+Plugin 'leafgarland/typescript-vim'
+" Plugin 'HerringtonDarkholme/yats.vim'
+" Plugin 'mhartington/nvim-typescript'
+
 "repos on vim-scripts
 Plugin 'c.vim'
 Plugin 'a.vim'
 Plugin 'cscope_macros.vim'
-" Plugin 'minibufexpl.vim'
 Plugin 'DrawIt'
 Plugin 'TaskList.vim'
-Plugin 'grep.vim'
+Plugin 'VisIncr'
+" Plugin 'grep.vim'
+" Plugin 'minibufexpl.vim'
 
 "non github reposo
 "Plugin 'git://git.wincent.com/command-t.git'
@@ -199,7 +220,8 @@ colorscheme Tomorrow-Night-Eighties
 let g:rehash256 = 1
 
 " YouCompleteMe --------------------------------------------------------------
-let g:ycm_server_python_interpreter = '/usr/bin/python3'
+" according to python_host_prog
+let g:ycm_server_python_interpreter = '/usr/bin/python3' 
 let g:ycm_python_binary_path = 'python'
 let g:ycm_log_level = 'error'
 let g:ycm_global_ycm_extra_conf = '~/.ycm/ycm_extra_conf.py'
@@ -208,9 +230,23 @@ let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_show_diagnostics_ui = 0
+let g:ycm_filetype_whitelist = {
+      \ 'c' : 1,
+      \ 'cpp' : 1,
+      \ 'python' : 1,
+      \ 'javascript' : 1,
+      \}
 map <Leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 au FileType c,cpp,objc,objcpp map <Leader>gp :YcmCompleter GetParent<CR>
 au FileType python,javascript,typescript map <Leader>gr :YcmCompleter GoToReferences<CR>
+
+" gen_tags.vim ---------------------------------------------------------------
+let g:gen_tags#use_cache_dir = 0
+nmap <Leader>gt :GenCtags<CR>
+nmap <Leader>tc :ClearCtags!<CR>
+nmap <Leader>gg :GenGTAGS<CR>
+nmap <Leader>gc :ClearGTAGS!<CR>
 
 " cscope ---------------------------------------------------------------------
 "设置使用quickfix显示cscope结果，目前与cscope_macro插件有冲突
@@ -283,9 +319,9 @@ let g:airline_symbols.paste = 'ρ'
 " let g:airline_symbols.paste = '∥'
 " let g:airline_symbols.whitespace = 'Ξ'
 " powerline symbols
-let g:airline_left_sep = ''
+let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
+let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
 let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
@@ -344,15 +380,52 @@ map <Leader>za :FAg
 " let g:syntastic_check_on_wq = 0
 
 " neomake   ------------------------------------------------------------------
-autocmd! BufWritePost * Neomake
+" autocmd! BufWritePost * Neomake
 " let g:neomake_javascript_jshint_maker = {
 "     \ 'args': ['--verbose'],
 "     \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
 "     \ }
-" let g:neomake_javascript_enabled_makers = ['jshint']
+" let g:neomake_javascript_enabled_makers = ['eslint']
+
+" ale   ----------------------------------------------------------------------
+let g:ale_sign_error = 'E'
+let g:ale_sign_warning = 'W'
+" let g:ale_open_list = 1
+" let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+		  \	'javascript': ['eslint'],
+		  \}
+
+" ack.vim  -------------------------------------------------------------------
+let g:ackprg = "ag --nogroup --nocolor --column"
+map <Leader>sa :Ack<space>
+
+" markdown-preview.vim  ------------------------------------------------------
+let g:mkdp_path_to_chrome = "chromium"
+" let g:mkdp_auto_start = 0
+" let g:mkdp_auto_open = 0
+" let g:mkdp_auto_close = 1
+" let g:mkdp_refresh_slow = 0
+" let g:mkdp_command_for_global = 0
+nmap <silent> <Leader>me <Plug>MarkdownPreview        " for normal mode
+imap <silent> <Leader>me <Plug>MarkdownPreview        " for insert mode
+nmap <silent> <Leader>md <Plug>StopMarkdownPreview    " for normal mode
+imap <silent> <Leader>md <Plug>StopMarkdownPreview    " for insert mode
 
 " vim-go    ------------------------------------------------------------------
 let g:go_disable_autoinstall = 1
+
+" nim.vim    -----------------------------------------------------------------
+fun! JumpToDef()
+	if exists("*GoToDefinition_" . &filetype)
+		call GoToDefinition_{&filetype}()
+	else
+		exe "norm! \<C-]>"
+	endif
+endf
+
+nn <M-g> :call JumpToDef()<cr>
+ino <M-g> <esc>:call JumpToDef()<cr>i
 
 " python-mode    -------------------------------------------------------------
 let g:pymode_motion = 1
@@ -373,3 +446,6 @@ imap <c-a>f :Autoformat<cr>
 vmap <c-a>f :Autoformat<cr>
 " let g:autoformat_verbosemode=1
 " let g:autoformat_autoindent = 0
+
+" dracula/vim ---------------------------------------------------------------
+color dracula
