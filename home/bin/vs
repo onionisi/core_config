@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+TARGET="$HOME/.xinitrc"
+
+function disable_frankenwm
+{
+  # sed -i '/unsplash/s/^/#/g' $TARGET
+  # sudo pkill -9 -f /usr/local/bin/unsplash > /dev/null 2>&1 
+  sed -i '/syndaemon/s/^/#/g' $TARGET
+  sudo killall syndaemon
+  sed -i '/xflux/s/^/#/g' $TARGET
+  sudo killall xflux
+  sed -i '/compton/s/^/#/g' $TARGET
+  sudo killall compton
+  sed -i '/frankenwm2bar/s/^/#/g' $TARGET
+}
+
+function enable_frankenwm
+{
+  # sed -i '/unsplash/s/^.//g' $TARGET
+  sed -i '/syndaemon/s/^.//g' $TARGET
+  sed -i '/xflux/s/^.//g' $TARGET
+  sed -i '/compton/s/^.//g' $TARGET
+  sed -i '/frankenwm2bar/s/^.//g' $TARGET
+}
+
+function disable_cinnamon
+{
+  sed -i '/cinnamon-session/s/^/#/g' $TARGET
+}
+
+function enable_cinnamon
+{
+  sed -i '/cinnamon-session/s/^.//g' $TARGET
+}
+
+function disable_dde
+{
+  sed -i '/startdde/s/^/#/g' $TARGET
+}
+
+function enable_dde
+{
+  sed -i '/startdde/s/^.//g' $TARGET
+}
+
+if [ $(pgrep frankenwm) ]; then
+  disable_frankenwm
+  enable_cinnamon
+  # enable_dde
+elif [ $(pgrep cinnamon|head -n1) ]; then
+  disable_cinnamon
+  enable_frankenwm
+else
+  disable_dde
+  enable_frankenwm
+fi
+
+sudo killall Xorg

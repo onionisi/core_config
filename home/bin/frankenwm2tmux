@@ -1,0 +1,30 @@
+#!/usr/bin/env sh
+
+wm="frankenwm"
+ff="/tmp/frankenwm.fifo"
+[[ -p $ff ]] || mkfifo -m 600 "$ff"
+
+# desktop names
+ds=("1" "2" "3" "4")
+
+# layout names
+ms=("[T]" "[M]" "[B]" "[G]" "[F]" "[D]" "[E]")
+
+while read -t 60 -r wmout || true; do
+    if [[ $wmout =~ ^(([[:digit:]]+:)+[[:digit:]]+ ?)+$ ]]; then
+        read -ra desktops <<< "$wmout" && unset r
+        for desktop in "${desktops[@]}"; do
+            IFS=':' read -r d w m c u <<< "$desktop"
+            ((c)) && i="${ms[$m]}"
+            ((u)) && w+='%{F#FFADADAD}%{U-}'
+            # r+=" $fg${ds[$d]} [${w/#0/-}] "
+            r+=" ${ds[$d]} "
+        done
+        r="${r%::*}"
+    fi
+    # printf "%s%s%s\n" "%{l} $r" "%{c}%{F#FFADADAD}$i" "%{r}$(date +"%F %R") "
+    printf "D$r $i"
+done < "$ff" > /tmp/wmst
+
+# pass output to fifo
+"$wm" > "$ff"

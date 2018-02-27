@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+function show_help
+{
+  echo "Usage: cutdown [options]"
+  echo
+  echo "options:  -h   usage messages"
+  echo "          -r   start daemon need network"
+}
+
+function stop_service
+{
+  echo "stop all service without network"
+  sudo systemctl stop netctl-auto@eth0.service
+  # other services related hooked in /etc/netctl/hooks
+}
+
+function start_service
+{
+  echo "start all service when network available"
+  sudo systemctl start netctl-auto@eth0.service
+  # other services related hooked in /etc/netctl/hooks
+}
+
+if [ $# -eq 0 ]; then
+  stop_service
+elif [ $# -eq 1 ]; then
+  if [ "$1" == "-h" ] || [ "$1" != "-r" ]; then
+    show_help
+  elif [ "$1" == "-r" ]; then
+    start_service
+  fi
+fi
+
+## EOF #########################################################################
+# vim:ft=sh expandtab

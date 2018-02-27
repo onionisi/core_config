@@ -25,7 +25,7 @@ function get_temp()
 
 function rpm_from_temp()
 {
-    local speed_min=2000 #$(cat ${applesmc_path}/fan1_min)
+    local speed_min=1000 #$(cat ${applesmc_path}/fan1_min)
     local speed_max=6000 #$(cat ${applesmc_path}/fan1_max)
     local speed=$(($(($1 - 35)) * 150))
 

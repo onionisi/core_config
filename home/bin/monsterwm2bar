@@ -20,7 +20,7 @@ while read -t 60 -r wmout || true; do
 		r="${r%::*}"
 	fi
 	printf "\\\l%s\\\r%s\n" "$r\\f5[\\f3$i\\f5]" "$(date +"%F %R")"
-done < "$ff" | bar &
+done < "$ff" | lemonbar &
 
 # pass output to fifo
 monsterwm > "$ff"
