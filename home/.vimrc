@@ -127,17 +127,17 @@ let g:python3_host_prog = '/opt/pyenv/versions/py3neovim/bin/python'
 set rtp+=~/.vim/bundle/Vundle.vim/
 call vundle#begin()
 
-Plugin 'gmarik/Vundle'
+Plugin 'VundleVim/Vundle.vim'
 
 "repos on github
 "
 "managed by yaourt avoid manual install
-" Plugin 'Valloric/YouCompleteMe' 
-Plugin 'rdnetto/YCM-Generator' 
-Plugin 'jsfaint/gen_tags.vim' 
+" Plugin 'Valloric/YouCompleteMe'
+Plugin 'rdnetto/YCM-Generator'
+Plugin 'jsfaint/gen_tags.vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
-Plugin 'ervandew/supertab'
+" Plugin 'ervandew/supertab'
 " Plugin 'scrooloose/syntastic'
 " Plugin 'benekastah/neomake'
 Plugin 'w0rp/ale'
@@ -164,13 +164,14 @@ Plugin 'alvan/vim-closetag'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'iamcco/markdown-preview.vim'
 Plugin 'elzr/vim-json'
-Plugin 'fatih/vim-go'
 Plugin 'zah/nim.vim'
+Plugin 'fatih/vim-go'
 Plugin 'klen/python-mode'
 Plugin 'jceb/vim-orgmode'
+Plugin 'rust-lang/rust.vim'
 
 Plugin 'flazz/vim-colorschemes'
-Plugin 'jlanzarotta/colorSchemeExplorer'
+" Plugin 'jlanzarotta/colorSchemeExplorer'
 Plugin 'dracula/vim'
 Plugin 'sjl/vitality.vim'
 Plugin 'Chiel92/vim-autoformat'
@@ -184,6 +185,7 @@ Plugin 'leafgarland/typescript-vim'
 " Plugin 'mhartington/nvim-typescript'
 
 "repos on vim-scripts
+" Plugin 'nginx.vim'
 Plugin 'c.vim'
 Plugin 'a.vim'
 Plugin 'cscope_macros.vim'
@@ -216,12 +218,15 @@ let g:vundle_default_git_proto='git'
 " set background=dark
 " colorscheme solarized
 " colorscheme molokai
-colorscheme Tomorrow-Night-Eighties
+" colorscheme Tomorrow-Night-Eighties
+
+" dracula/vim ---------------------------------------------------------------
+color dracula
 let g:rehash256 = 1
 
 " YouCompleteMe --------------------------------------------------------------
 " according to python_host_prog
-let g:ycm_server_python_interpreter = '/usr/bin/python3' 
+let g:ycm_server_python_interpreter = '/usr/bin/python3'
 let g:ycm_python_binary_path = 'python'
 let g:ycm_log_level = 'error'
 let g:ycm_global_ycm_extra_conf = '~/.ycm/ycm_extra_conf.py'
@@ -232,11 +237,11 @@ let g:ycm_confirm_extra_conf = 0
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_filetype_whitelist = {
-      \ 'c' : 1,
-      \ 'cpp' : 1,
-      \ 'python' : 1,
-      \ 'javascript' : 1,
-      \}
+		  \ 'c' : 1,
+		  \ 'cpp' : 1,
+		  \ 'python' : 1,
+		  \ 'javascript' : 1,
+		  \}
 map <Leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 au FileType c,cpp,objc,objcpp map <Leader>gp :YcmCompleter GetParent<CR>
 au FileType python,javascript,typescript map <Leader>gr :YcmCompleter GoToReferences<CR>
@@ -247,6 +252,11 @@ nmap <Leader>gt :GenCtags<CR>
 nmap <Leader>tc :ClearCtags!<CR>
 nmap <Leader>gg :GenGTAGS<CR>
 nmap <Leader>gc :ClearGTAGS!<CR>
+
+" ultisnips ------------------------------------------------------------------
+let g:UltiSnipsExpandTrigger="<Leader><tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " cscope ---------------------------------------------------------------------
 "设置使用quickfix显示cscope结果，目前与cscope_macro插件有冲突
@@ -297,8 +307,9 @@ let g:tagbar_zoomwidth=0
 " let g:airline_section_y='BN: %{bufnr("%")}'
 " smarter tab line
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = ''
+let g:airline#extensions#tabline#formatter = 'unique_tail'
 " use symbols
 let g:airline_theme='powerlineish'
 " let g:airline_theme='wombat'
@@ -388,8 +399,9 @@ map <Leader>za :FAg
 " let g:neomake_javascript_enabled_makers = ['eslint']
 
 " ale   ----------------------------------------------------------------------
-let g:ale_sign_error = 'E'
-let g:ale_sign_warning = 'W'
+let g:ale_sign_error = '>'
+let g:ale_sign_warning = '-'
+let g:ale_set_highlights = 0
 " let g:ale_open_list = 1
 " let g:ale_fix_on_save = 1
 let g:ale_fixers = {
@@ -417,11 +429,11 @@ let g:go_disable_autoinstall = 1
 
 " nim.vim    -----------------------------------------------------------------
 fun! JumpToDef()
-	if exists("*GoToDefinition_" . &filetype)
-		call GoToDefinition_{&filetype}()
-	else
-		exe "norm! \<C-]>"
-	endif
+      if exists("*GoToDefinition_" . &filetype)
+	    call GoToDefinition_{&filetype}()
+      else
+	    exe "norm! \<C-]>"
+      endif
 endf
 
 nn <M-g> :call JumpToDef()<cr>
@@ -446,6 +458,3 @@ imap <c-a>f :Autoformat<cr>
 vmap <c-a>f :Autoformat<cr>
 " let g:autoformat_verbosemode=1
 " let g:autoformat_autoindent = 0
-
-" dracula/vim ---------------------------------------------------------------
-color dracula
