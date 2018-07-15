@@ -5,8 +5,8 @@ ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="simple"
-# ZSH_THEME="agnoster" 
+# ZSH_THEME="simple"
+ZSH_THEME="spaceship" 
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
@@ -30,7 +30,7 @@ ZSH_THEME="simple"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(systemd git github vundle colored-man-pages emoji archlinux pyenv rbenv nvm safe-paste thefuck)
+plugins=(docker docker-compose systemd autojump git github vundle colored-man-pages emoji archlinux pyenv rbenv nvm safe-paste thefuck rust cargo)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -82,6 +82,13 @@ alias sk="xmodmap ~/.xmodmaprc"
 alias jedi_venv="cd ~/code/JediHTTP && python setup.py install && cd -"
 alias dim="xbacklight -dec 5"
 alias lit="xbacklight -inc 5"
+alias unar="unar -e gb18030"
+alias cat=bat
+alias ip="ip -c"
+alias tether="sudo easytether-usb && sudo dhcpcd tap-easytether"
+alias audio-hdmi='pacmd set-card-profile 0 output:hdmi-stereo+input:analog-stereo'
+alias audio-laptop='pacmd set-card-profile 0 output:analog-stereo+input:analog-stereo'
+alias audio-bt='pacmd set-card-profile 0 output:a2dp_sink+input:analog-stereo'
 
 hash -d Q="/opt/sdk/qca4004/current/target"
 hash -d E="/opt/sdk/esp8266/esp_iot_rtos_sdk"
