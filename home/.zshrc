@@ -30,19 +30,20 @@ ZSH_THEME="spaceship"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(docker docker-compose systemd autojump git github vundle colored-man-pages emoji archlinux pyenv rbenv nvm safe-paste thefuck rust cargo)
+plugins=(aws docker docker-compose systemd autojump git github vundle colored-man-pages emoji archlinux pyenv rbenv nvm safe-paste thefuck rust cargo)
 
 source $ZSH/oh-my-zsh.sh
 
 # Customize...
 
 # export PYTHONDONTWRITEBYTECODE=1
+export PYENV_ROOT="/opt/pyenv"
 export NQDIR="$HOME/.nq"
 export VISUAL="vim"
 export EDITOR="vim"
 export AURDEST="/tmp/pacaur"
 export GOPATH="/opt/go"
-export PATH="$GOPATH/bin:$PATH:/opt/mos/bin"
+export PATH="$HOME/bin:$GOPATH/bin:$PATH:/opt/mos/bin"
 # for cross toolchain
 export PATH=/home/chong/code/esp-open-sdk/xtensa-lx106-elf/bin:/opt/gcc-arm-none-eabi/gcc-arm-none-eabi-4_9-2015q3/bin:$PATH
 
@@ -101,7 +102,7 @@ function cheat() { curl cheat.sh/$@ ;}
 function weather() { curl wttr.in/$@ ;}
 # function ipinfo() { curl -Ls tbip.alicdn.com/api/queryip | jq -r '.data' ;}
 function publicip() { curl ipinfo.io ;}
-function currency() { curl -Ls api.fixer.io/latest?symbols=CNY,USD,GBP,EUR,AUD\&base=$@ | json_reformat ;}
+function currency() { curl -Ls data.fixer.io/api/latest?access_key=74e40af2aadc8dab35c2693470b19dbe\&base=$@\&symbols=CNY,USD,GBP,EUR,AUD | json_reformat ;}
 function qrify() { input=$(echo "$@" | sed s/" "/%20/g); curl qrenco.de/$input ;}
 
 # load nerd font
