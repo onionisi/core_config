@@ -45,10 +45,10 @@ set number
 set backupdir=~/.vim/backups
 set directory=~/.vim/swaps
 if exists("&undodir")
-	set undodir=~/.vim/undo
-	set undofile
-	set undolevels=500
-	set undoreload=500
+      set undodir=~/.vim/undo
+      set undofile
+      set undolevels=500
+      set undoreload=500
 endif
 
 "关闭文件类型侦测（vundle required!）
@@ -123,89 +123,81 @@ let g:python_host_prog = '/opt/pyenv/versions/py2neovim/bin/python'
 let g:python3_host_prog = '/opt/pyenv/versions/py3neovim/bin/python'
 ">>>>插件相关配置
 
-" vundle ----------------------------------------------------------------------
-set rtp+=~/.vim/bundle/Vundle.vim/
-call vundle#begin()
-
-Plugin 'VundleVim/Vundle.vim'
+" vim-plug ----------------------------------------------------------------------
+" Plugins will be downloaded under the specified directory.
+call plug#begin('~/.vim/bundle')
 
 "repos on github
 "
 "managed by yaourt avoid manual install
-" Plugin 'Valloric/YouCompleteMe'
-Plugin 'rdnetto/YCM-Generator'
-Plugin 'jsfaint/gen_tags.vim'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-" Plugin 'ervandew/supertab'
-" Plugin 'scrooloose/syntastic'
-" Plugin 'benekastah/neomake'
-Plugin 'w0rp/ale'
-Plugin 'scrooloose/nerdtree'
-Plugin 'bling/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-" Plugin 'kien/ctrlp.vim'
-Plugin 'junegunn/fzf.vim'
-Plugin 'mattn/emmet-vim'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'sjl/gundo.vim'
-Plugin 'majutsushi/tagbar'
-Plugin 'godlygeek/tabular'
-Plugin 'tpope/vim-sleuth'
-" Plugin 'rking/ag.vim'
-Plugin 'mileszs/ack.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-obsession'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-repeat'
-Plugin 'alvan/vim-closetag'
+" Plug 'Valloric/YouCompleteMe'
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+Plug 'jsfaint/gen_tags.vim'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+" Plug 'ervandew/supertab'
+" Plug 'scrooloose/syntastic'
+" Plug 'benekastah/neomake'
+Plug 'w0rp/ale'
+Plug 'scrooloose/nerdtree'
+Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+" Plug 'kien/ctrlp.vim'
+Plug 'junegunn/fzf.vim'
+Plug 'mattn/emmet-vim'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'sjl/gundo.vim'
+Plug 'majutsushi/tagbar'
+Plug 'godlygeek/tabular'
+Plug 'tpope/vim-sleuth'
+" Plug 'rking/ag.vim'
+Plug 'mileszs/ack.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'alvan/vim-closetag'
 
-Plugin 'plasticboy/vim-markdown'
-Plugin 'iamcco/markdown-preview.vim'
-Plugin 'elzr/vim-json'
-Plugin 'zah/nim.vim'
-Plugin 'fatih/vim-go'
-Plugin 'klen/python-mode'
-Plugin 'jceb/vim-orgmode'
-Plugin 'rust-lang/rust.vim'
+Plug 'plasticboy/vim-markdown'
+Plug 'iamcco/markdown-preview.vim'
+Plug 'elzr/vim-json'
+Plug 'zah/nim.vim', { 'for': 'nim' }
+Plug 'fatih/vim-go', { 'for': 'go' }
+Plug 'klen/python-mode', { 'for': 'python' }
+Plug 'jceb/vim-orgmode'
+Plug 'rust-lang/rust.vim'
 
-Plugin 'flazz/vim-colorschemes'
-" Plugin 'jlanzarotta/colorSchemeExplorer'
-Plugin 'dracula/vim'
-Plugin 'sjl/vitality.vim'
-Plugin 'Chiel92/vim-autoformat'
+Plug 'flazz/vim-colorschemes'
+" Plug 'jlanzarotta/colorSchemeExplorer'
+Plug 'dracula/vim'
+Plug 'sjl/vitality.vim'
+Plug 'Chiel92/vim-autoformat'
 
-Plugin 'sheerun/vim-polyglot'
-Plugin 'jelera/vim-javascript-syntax'
-Plugin 'kchmck/vim-coffee-script'
+Plug 'sheerun/vim-polyglot'
+Plug 'jelera/vim-javascript-syntax'
+Plug 'kchmck/vim-coffee-script'
 
-Plugin 'leafgarland/typescript-vim'
-" Plugin 'HerringtonDarkholme/yats.vim'
-" Plugin 'mhartington/nvim-typescript'
+Plug 'leafgarland/typescript-vim'
+" Plug 'HerringtonDarkholme/yats.vim'
+" Plug 'mhartington/nvim-typescript'
 
 "repos on vim-scripts
-" Plugin 'nginx.vim'
-Plugin 'c.vim'
-Plugin 'a.vim'
-Plugin 'cscope_macros.vim'
-Plugin 'DrawIt'
-Plugin 'TaskList.vim'
-Plugin 'VisIncr'
-" Plugin 'grep.vim'
-" Plugin 'minibufexpl.vim'
+" Plug 'vim-scripts/nginx.vim'
+Plug 'vim-scripts/c.vim'
+Plug 'vim-scripts/a.vim'
+Plug 'vim-scripts/cscope_macros.vim'
+Plug 'vim-scripts/DrawIt'
+Plug 'vim-scripts/TaskList.vim'
+Plug 'vim-scripts/VisIncr'
+" Plug 'vim-scripts/grep.vim'
+" Plug 'vim-scripts/minibufexpl.vim'
 
-"non github reposo
-"Plugin 'git://git.wincent.com/command-t.git'
-"...
+" List ends here. Plugins become visible to Vim after this call.
+call plug#end()
 
-call vundle#end()
-
-filetype on
-"根据侦测到的不同类型加载对应的插件
-filetype plugin on
-"根据侦测到的不同类型采用不同的缩进格式
-filetype indent on
+" auto enable
+"filetype plugin indent on
 
 au FileType javascript,coffee,sass,scss,less,css setlocal ts=2 sw=2 sts=2 et
 au FileType python setlocal ts=4 sw=4 sts=4 et tw=80
@@ -230,18 +222,18 @@ let g:ycm_server_python_interpreter = '/usr/bin/python3'
 let g:ycm_python_binary_path = 'python'
 let g:ycm_log_level = 'error'
 let g:ycm_global_ycm_extra_conf = '~/.ycm/ycm_extra_conf.py'
-let g:ycm_min_num_of_chars_for_completion = 4
+let g:ycm_min_num_of_chars_for_completion = 3
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_show_diagnostics_ui = 0
-let g:ycm_filetype_whitelist = {
-		  \ 'c' : 1,
-		  \ 'cpp' : 1,
-		  \ 'python' : 1,
-		  \ 'javascript' : 1,
-		  \}
+" let g:ycm_filetype_whitelist = {
+" 		  \ 'c' : 1,
+" 		  \ 'cpp' : 1,
+" 		  \ 'python' : 1,
+" 		  \ 'javascript' : 1,
+" 		  \}
 map <Leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 au FileType c,cpp,objc,objcpp map <Leader>gp :YcmCompleter GetParent<CR>
 au FileType python,javascript,typescript map <Leader>gr :YcmCompleter GoToReferences<CR>
@@ -282,11 +274,11 @@ let NERDTreeIgnore=['\.pyc$','\.o$']
 " tagbar ----------------------------------------------------------------------
 "tagbar relies on the features supported by exuberant ctags
 if has("unix")
-	let s:uname = system("uname")
-	if s:uname == "Darwin\n"
-		" Do Mac stuff here
-		let g:tarbar_ctags_bin = '/usr/local/bin/ctags'
-	endif
+      let s:uname = system("uname")
+      if s:uname == "Darwin\n"
+	    " Do Mac stuff here
+	    let g:tarbar_ctags_bin = '/usr/local/bin/ctags'
+      endif
 endif
 nnoremap <Leader>tl :TagbarToggle<CR>
 let g:tagbar_width=30
@@ -346,12 +338,12 @@ map <Leader>td <Plug>TaskList
 
 " Tabular   ------------------------------------------------------------------
 if exists(":Tabularize")
-	nmap <Leader>a= :Tabularize /=<CR>
-	vmap <Leader>a= :Tabularize /=<CR>
-	nmap <Leader>a/ :Tabularize //\/<CR>
-	vmap <Leader>a/ :Tabularize //\/<CR>
-	nmap <Leader>a: :Tabularize /:\zs<CR>
-	vmap <Leader>a: :Tabularize /:\zs<CR>
+      nmap <Leader>a= :Tabularize /=<CR>
+      vmap <Leader>a= :Tabularize /=<CR>
+      nmap <Leader>a/ :Tabularize //\/<CR>
+      vmap <Leader>a/ :Tabularize //\/<CR>
+      nmap <Leader>a: :Tabularize /:\zs<CR>
+      vmap <Leader>a: :Tabularize /:\zs<CR>
 endif
 
 " ctrlp     ------------------------------------------------------------------
@@ -378,7 +370,7 @@ let g:fzf_command_prefix = 'F'
 map ,, :FFiles<cr>
 map <Leader>zg :FGitFiles<cr>
 map <Leader>zm :FMarks<cr>
-map <Leader>za :FAg 
+map <Leader>za :FAg
 
 " syntastic ------------------------------------------------------------------
 " set statusline+=%#warningmsg#
