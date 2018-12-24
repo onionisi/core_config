@@ -12,7 +12,8 @@ function disable_frankenwm
   sudo killall xflux
   sed -i '/compton/s/^/#/g' $TARGET
   sudo killall compton
-  sed -i '/frankenwm2bar/s/^/#/g' $TARGET
+  # sed -i '/frankenwm/s/^/#/g' $TARGET
+  sed -i '/i3/s/^/#/g' $TARGET
 }
 
 function enable_frankenwm
@@ -21,7 +22,8 @@ function enable_frankenwm
   sed -i '/syndaemon/s/^.//g' $TARGET
   sed -i '/xflux/s/^.//g' $TARGET
   sed -i '/compton/s/^.//g' $TARGET
-  sed -i '/frankenwm2bar/s/^.//g' $TARGET
+  # sed -i '/frankenwm/s/^.//g' $TARGET
+  sed -i '/i3/s/^.//g' $TARGET
 }
 
 function disable_cinnamon
